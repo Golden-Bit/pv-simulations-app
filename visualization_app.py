@@ -240,6 +240,15 @@ def load_and_display_json(data):
     st.write("Metriche Annuali")
     st.write(metrics_df)  # Mostra la tabella con i risultati per metro quadrato
 
+    vita_utile = financial_kwargs["anni_di_funzionalita"]
+    metrics_df['Costo Totale / m² (€)'] = metrics_df['Costo Totale / m² (€)'] * vita_utile
+    metrics_df['Guadagno Lordo / m² (€)'] = metrics_df['Guadagno Lordo / m² (€)'] * vita_utile
+    metrics_df['Guadagno Netto / m² (€)'] = metrics_df['Guadagno Netto / m² (€)'] * vita_utile
+
+    st.write(f"Metriche sul Ciclo di Vita ({vita_utile} anni)")
+    st.write(metrics_df)  # Mostra la tabella con i risultati per metro quadrato
+
+
 # Main app
 def main():
     st.title("Visualizzazione Dati della Simulazione")
