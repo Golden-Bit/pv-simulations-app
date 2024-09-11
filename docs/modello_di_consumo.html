@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modelli Teorici per la Simulazione dei Consumi Energetici Orari</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        h1, h2, h3, h4 {
+            color: #333;
+        }
+        p, li {
+            margin-bottom: 10px;
+        }
+        .formula {
+            background-color: #f4f4f4;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px 0;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 1.1em;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Modelli Teorici per la Simulazione dei Consumi Energetici Orari</h1>
+
+<h2>1. Introduzione</h2>
+<p>Questo documento descrive i modelli teorici e matematici utilizzati per simulare il consumo energetico orario di un'utenza domestica o industriale. Lo scopo del modello è suddividere il consumo giornaliero totale in intervalli orari per meglio comprendere e analizzare i profili di consumo. I modelli impiegati sono:</p>
+<ul>
+    <li>Distribuzione Uniforme</li>
+    <li>Distribuzione a Campana (Gaussiana)</li>
+    <li>Distribuzione Normale</li>
+    <li>Distribuzione Personalizzata</li>
+    <li>Combinazione di Modelli (esempio pratico per un consumo familiare)</li>
+</ul>
+
+<p>Ogni modello si basa su diverse ipotesi e parametri, che sono descritti nel dettaglio di seguito.</p>
+
+<h2>2. Distribuzione Uniforme</h2>
+<p>La distribuzione uniforme è il modello più semplice. Si assume che il consumo giornaliero totale sia distribuito equamente tra tutte le ore del giorno.</p>
+
+<div class="formula">
+    <p>C<sub>hourly</sub> = C<sub>daily</sub> / n</p>
+</div>
+
+<p>Dove:</p>
+<ul>
+    <li>C<sub>hourly</sub> è il consumo orario.</li>
+    <li>C<sub>daily</sub> è il consumo giornaliero totale.</li>
+    <li>n è il numero di ore nel giorno (tipicamente 24).</li>
+</ul>
+
+<p>Questa distribuzione è utile per simulare scenari in cui il consumo è relativamente stabile durante la giornata.</p>
+
+<h2>3. Distribuzione a Campana (Gaussiana)</h2>
+<p>La distribuzione a campana simula un consumo energetico che segue un andamento simile a una curva gaussiana, con un picco di consumo in un determinato orario e un consumo ridotto durante le altre ore del giorno.</p>
+
+<div class="formula">
+    <p>C<sub>hourly</sub>(h) = C<sub>daily</sub> × exp(-((h - μ)<sup>2</sup>) / (2σ<sup>2</sup>)) / Σ<sub>h=0</sub><sup>23</sup> exp(-((h - μ)<sup>2</sup>) / (2σ<sup>2</sup>))</p>
+</div>
+
+<p>Dove:</p>
+<ul>
+    <li>h è l'ora del giorno (0-23).</li>
+    <li>μ è l'ora del picco di consumo.</li>
+    <li>σ è l'ampiezza della curva (legata alla "larghezza" del picco).</li>
+    <li>Il denominatore normalizza la distribuzione affinché la somma delle frazioni orarie sia uguale a 1.</li>
+</ul>
+
+<p>Questo modello è utile per simulare scenari in cui ci sono picchi di consumo, ad esempio, durante l'ora di pranzo o in serata.</p>
+
+<h2>4. Distribuzione Normale</h2>
+<p>La distribuzione normale è simile alla distribuzione a campana, ma utilizza una distribuzione gaussiana con parametri diversi per media e deviazione standard. La formula per il consumo orario segue la forma della distribuzione normale.</p>
+
+<div class="formula">
+    <p>C<sub>hourly</sub>(h) = C<sub>daily</sub> × exp(-((h - μ)<sup>2</sup>) / (2σ<sup>2</sup>)) / Σ<sub>h=0</sub><sup>23</sup> exp(-((h - μ)<sup>2</sup>) / (2σ<sup>2</sup>))</p>
+</div>
+
+<p>Dove:</p>
+<ul>
+    <li>μ è la media oraria del consumo.</li>
+    <li>σ è la deviazione standard, che controlla quanto i consumi si distribuiscono intorno alla media.</li>
+</ul>
+
+<h2>5. Distribuzione Personalizzata</h2>
+<p>Questo modello consente di definire un profilo di consumo personalizzato basato su pesi per ogni ora del giorno. L'utente può specificare i pesi per ogni ora e, se necessario, normalizzarli affinché la somma sia 1.</p>
+
+<div class="formula">
+    <p>C<sub>hourly</sub>(h) = C<sub>daily</sub> × (p<sub>h</sub> / Σ<sub>h=0</sub><sup>23</sup> p<sub>h</sub>)</p>
+</div>
+
+<p>Dove:</p>
+<ul>
+    <li>p<sub>h</sub> è il peso assegnato all'ora h.</li>
+</ul>
+
+<p>Questo modello è utile per rappresentare consumi specifici di un'utenza, che possono variare significativamente in funzione delle abitudini.</p>
+
+<h2>6. Combinazione di Modelli: Esempio di Consumo Familiare da 3650 kWh Annuo</h2>
+
+<h3>6.1. Calcolo del Consumo Giornaliero</h3>
+<p>Prima di tutto, calcoliamo il consumo medio giornaliero:</p>
+
+<div class="formula">
+    <p>C<sub>daily</sub> = 3650 kWh / 365 giorni ≈ 10 kWh/giorno</p>
+</div>
+
+<h3>6.2. Impostazione dei Picchi</h3>
+<p>Due curve gaussiane sono utilizzate per rappresentare i picchi. Il primo picco è alle 12:00 (pranzo) e il secondo alle 19:00 (cena). Ogni curva è caratterizzata dai parametri μ e σ:</p>
+
+<ul>
+    <li><strong>Prima curva (pranzo)</strong>:
+        <ul>
+            <li>μ<sub>1</sub> = 12</li>
+            <li>σ<sub>1</sub> = 2 (consumo distribuito tra le 10:00 e le 14:00)</li>
+        </ul>
+    </li>
+    <li><strong>Seconda curva (cena)</strong>:
+        <ul>
+            <li>μ<sub>2</sub> = 19</li>
+            <li>σ<sub>2</sub> = 2 (consumo distribuito tra le 17:00 e le 21:00)</li>
+        </ul>
+    </li>
+</ul>
+
+<h3>6.3. Formula di Combinazione</h3>
+<p>Il consumo orario sarà dato dalla somma dei contributi delle due curve gaussiane:</p>
+
+<div class="formula">
+    <p>C<sub>hourly</sub>(h) = C<sub>daily</sub> × [exp(-((h - μ<sub>1</sub>)<sup>2</sup>)/(2σ<sub>1</sub><sup>2</sup>)) + exp(-((h - μ<sub>2</sub>)<sup>2</sup>)/(2σ<sub>2</sub><sup>2</sup>))] / Σ<sub>h=0</sub><sup>23</sup> [exp(-((h - μ<sub>1</sub>)<sup>2</sup>)/(2σ<sub>1</sub><sup>2</sup>)) + exp(-((h - μ<sub>2</sub>)<sup>2</sup>)/(2σ<sub>2</sub><sup>2</sup>))]</p>
+</div>
+
+<h3>6.4. Distribuzione Oraria del Consumo</h3>
+<p>Applicando questa formula, otteniamo una distribuzione oraria del consumo che riflette i due picchi principali. Ogni ora del giorno avrà una frazione di consumo proporzionale alla somma delle curve gaussiane in quel momento.</p>
+
+<h2>7. Conclusioni</h2>
+<p>I modelli descritti consentono di simulare profili di consumo energetico orario realistici, che possono essere utilizzati per ottimizzare l'autoconsumo in impianti fotovoltaici o per analizzare la distribuzione dei consumi nel tempo.</p>
+
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modello di Simulazione per l’Accumulazione Energetica con Batterie</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .formula {
+            font-family: "Courier New", monospace;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .formula span {
+            display: block;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Modello di Simulazione per l’Accumulazione Energetica con Batterie</h1>
+
+<h2>1. Introduzione</h2>
+<p>Questo documento presenta un modello dettagliato per la simulazione di sistemi fotovoltaici integrati con batterie di accumulo. L'obiettivo principale è calcolare l'energia autoconsumata annualmente, considerando la capacità di accumulo della batteria e le sue potenze massime di carica e scarica. Il modello introduce nuove variabili e formule matematiche per rappresentare accuratamente le dinamiche di accumulo e scarica, nonché l'influenza della carica media giornaliera sulla stabilità energetica.</p>
+
+<h2>2. Definizioni e Variabili</h2>
+<p>Per la simulazione con batterie, vengono introdotte le seguenti variabili:</p>
+<ul>
+    <li><strong>C<sub>batteria</sub></strong>: Capacità totale della batteria (kWh)</li>
+    <li><strong>P<sub>carica</sub></strong>: Potenza massima di carica della batteria (kW)</li>
+    <li><strong>P<sub>scarica</sub></strong>: Potenza massima di scarica della batteria (kW)</li>
+    <li><strong>SOC<sub>min</sub></strong>: Stato di carica minimo della batteria (%)</li>
+    <li><strong>SOC<sub>max</sub></strong>: Stato di carica massimo della batteria (%)</li>
+    <li><strong>E<sub>batteria</sub>(t)</strong>: Energia immagazzinata nella batteria all'ora t (kWh)</li>
+    <li><strong>&eta;<sub>batteria</sub></strong>: Efficienza di carica e scarica della batteria (0-1)</li>
+</ul>
+
+<h2>3. Distribuzione della Produzione e del Consumo</h2>
+<p>Le distribuzioni orarie della produzione e del consumo sono definite come segue:</p>
+<div class="formula">
+    <span><strong>E<sub>prod_giorn</sub></strong> = &sum;<sub>h=1</sub><sup>24</sup> E<sub>prod_oraria</sub>(h)</span>
+    <span><strong>E<sub>cons_giorn</sub></strong> = &sum;<sub>h=1</sub><sup>24</sup> E<sub>cons_oraria</sub>(h)</span>
+</div>
+
+<h2>4. Energia Immagazzinata nella Batteria</h2>
+<p>L'energia immagazzinata nella batteria all'ora h+1 viene calcolata come:</p>
+<div class="formula">
+    <span><strong>E<sub>batteria</sub>(h+1)</strong> = E<sub>batteria</sub>(h) + min(&eta;<sub>batteria</sub> &times; (E<sub>prod_oraria</sub>(h) - E<sub>cons_oraria</sub>(h)), P<sub>carica</sub>, C<sub>batteria</sub> - E<sub>batteria</sub>(h))</span>
+</div>
+<p>Nel caso in cui la produzione sia inferiore al consumo, la batteria non immagazzina energia. La formula considera l'efficienza di carica e il limite massimo della capacità della batteria, evitando overflow.</p>
+
+<h2>5. Energia Rilasciata dalla Batteria</h2>
+<p>Durante le ore in cui il consumo eccede la produzione, la batteria fornisce energia per coprire la differenza. L’energia rilasciata dalla batteria è data da:</p>
+<div class="formula">
+    <span><strong>E<sub>rilasciata</sub>(h)</strong> = min(E<sub>cons_oraria</sub>(h) - E<sub>prod_oraria</sub>(h), P<sub>scarica</sub>, &eta;<sub>batteria</sub> &times; E<sub>batteria</sub>(h))</span>
+</div>
+<p>Questa formula garantisce che la potenza di scarica della batteria non superi i limiti imposti e che l'energia rilasciata tenga conto dell'efficienza di scarica.</p>
+
+<h2>6. Energia Autoconsumata con Batteria</h2>
+<p>L'energia autoconsumata all'ora h è data dalla somma dell'energia consumata direttamente dalla produzione fotovoltaica e dall'energia rilasciata dalla batteria:</p>
+<div class="formula">
+    <span><strong>E<sub>autoconsumata</sub>(h)</strong> = E<sub>autoconsumata_diretta</sub>(h) + E<sub>rilasciata</sub>(h)</span>
+</div>
+<p>Dove:</p>
+<div class="formula">
+    <span><strong>E<sub>autoconsumata_diretta</sub>(h)</strong> = min(E<sub>prod_oraria</sub>(h), E<sub>cons_oraria</sub>(h))</span>
+</div>
+
+<h2>7. Calcolo Annuale dell'Energia Autoconsumata</h2>
+<p>L'energia autoconsumata annuale è calcolata come:</p>
+<div class="formula">
+    <span><strong>E<sub>autoconsumata_anno</sub></strong> = 365 &times; &sum;<sub>h=1</sub><sup>24</sup> E<sub>autoconsumata</sub>(h)</span>
+</div>
+
+<h2>8. Integrazione del Modello per Batterie nel Risparmio Annuale</h2>
+<p>Il risparmio annuale è influenzato dall'energia autoconsumata grazie alla batteria, riducendo la necessità di prelevare energia dalla rete. Il modello consente di quantificare l'efficienza economica del sistema di accumulo.</p>
+
+<h2>9. Carica Media Giornaliera</h2>
+<p>Per determinare la carica media giornaliera che mantiene l'equilibrio energetico, è necessario trovare un valore iniziale di energia nella batteria <strong>E<sub>batteria_inizio</sub></strong> che permetta alla batteria di tornare al livello iniziale alla fine della giornata. Questo valore deve soddisfare la condizione:</p>
+<div class="formula">
+    <span><strong>E<sub>batteria_fine</sub>(h=24)</strong> = <strong>E<sub>batteria_inizio</sub>(h=0)</strong></span>
+</div>
+<p>L’energia immagazzinata alla fine della giornata deve essere uguale a quella iniziale. Per ottenere <strong>E<sub>batteria_inizio</sub></strong>, utilizziamo un algoritmo iterativo che simula la giornata ora per ora e verifica la condizione di equilibrio.</p>
+
+<h2>10. Strategia di Creazione del Vincolo per il Livello di Carica della Batteria</h2>
+<p>Per determinare il valore preciso di <strong>E<sub>batteria_inizio</sub></strong> con bassa complessità computazionale, adottiamo la seguente strategia:</p>
+<ol>
+    <li><strong>Definizione del Vincolo</strong>: Il vincolo di carica della batteria è impostato per garantire che alla fine della giornata l'energia immagazzinata sia pari a quella iniziale. Questo vincolo semplifica il problema riducendo il numero di variabili da considerare e focalizzandosi solo sull'energia immagazzinata a inizio e fine giornata.</li>
+    <li><strong>Algoritmo Iterativo</strong>: Un algoritmo di ricerca iterativa (ad esempio, ricerca binaria) viene utilizzato per trovare il valore di <strong>E<sub>batteria_inizio</sub></strong>. Questo algoritmo è efficiente in quanto limita il numero di iterazioni necessarie per trovare la soluzione, riducendo così il carico computazionale.</li>
+    <li><strong>Validazione del Risultato</strong>: Dopo aver trovato un valore iniziale che soddisfa il vincolo, il modello viene validato simulando un ciclo energetico completo per assicurarsi che il valore trovato consenta il ritorno al livello iniziale di carica senza errori significativi.</li>
+</ol>
+
+<h2>11. Aggiornamento del Fattore di Autoconsumo</h2>
+<p>Il <strong>fattore di autoconsumo</strong> medio annuale è calcolato come:</p>
+<div class="formula">
+    <span><strong>FAC</strong> = (E<sub>autoconsumata_diretta</sub> + E<sub>autoconsumata_indiretta</sub>) / E<sub>prod_annuale</sub></span>
+</div>
+<p>Dove:</p>
+<ul>
+    <li><strong>E<sub>autoconsumata_diretta</sub></strong> è l'energia consumata direttamente dalla produzione fotovoltaica.</li>
+    <li><strong>E<sub>autoconsumata_indiretta</sub></strong> è l'energia consumata dopo essere stata immagazzinata e successivamente rilasciata dalla batteria.</li>
+    <li><strong>E<sub>prod_annuale</sub></strong> è l'energia totale prodotta durante l'anno.</li>
+</ul>
+
+<h2>12. Conclusione</h2>
+<p>Il modello di simulazione proposto consente una rappresentazione dettagliata dell'accumulo energetico con batterie. La capacità della batteria e le sue potenze di carica e scarica influenzano significativamente l'accumulo e il rilascio di energia. La strategia di creazione del vincolo per il livello di carica della batteria consente di determinare valori precisi con bassa complessità computazionale, garantendo una simulazione efficiente e accurata dell'autoconsumo e del risparmio energetico annuale.</p>
+
+</body>
+</html>

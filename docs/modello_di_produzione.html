@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modelli Teorici e Matematici/Logici per la Simulazione della Produzione Fotovoltaica</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .formula {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #f9f9f9;
+            padding: 10px;
+            border: 1px solid #ddd;
+            margin: 10px 0;
+            display: inline-block;
+        }
+        .conclusion {
+            background-color: #f4f4f4;
+            padding: 15px;
+            border-left: 4px solid #3498db;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Documento Descrittivo: Modelli Teorici e Matematici/Logici per la Simulazione della Produzione Annuale e Distribuzione Oraria di Energia Fotovoltaica</h1>
+
+    <h2>1. Introduzione</h2>
+    <p>
+        Questo documento descrive i modelli teorici e matematici impiegati per simulare la produzione energetica annuale di un impianto fotovoltaico e la relativa distribuzione oraria della produzione media giornaliera. Il modello prende in considerazione variabili come l'efficienza dei pannelli, l'inclinazione e l'orientamento dei moduli fotovoltaici, nonché la produzione annuale media per kW installato in diverse regioni d'Italia (nord, centro e sud). L'obiettivo del modello è di stimare sia la produzione annua sia la distribuzione oraria della produzione energetica media in una giornata tipica.
+    </p>
+
+    <h2>2. Modello di Produzione Annuale Corretto</h2>
+    <p>La produzione annuale di riferimento per ogni regione è definita dai seguenti valori:</p>
+    <div class="formula">
+        P<sub>ref</sub>(kW) = <br>
+        <b>1050</b> (Nord) <br>
+        <b>1250</b> (Centro) <br>
+        <b>1450</b> (Sud)
+    </div>
+    <p>(Produzione in kWh/anno per ogni kW installato)</p>
+
+    <p>La produzione annua viene corretta per tenere conto dell'inclinazione e dell'orientamento dei moduli rispetto alla posizione ottimale. Le correzioni sono calcolate tramite le seguenti formule:</p>
+
+    <div class="formula">
+        ΔP<sub>inclinazione</sub> = 0.005 × | inclinazione - 30 |
+    </div>
+
+    <div class="formula">
+        ΔP<sub>orientamento</sub> = 0.002 × | orientamento - 180 |
+    </div>
+
+    <p>La produzione annuale corretta diventa quindi:</p>
+    <div class="formula">
+        P<sub>annual</sub> = P<sub>ref</sub> × (1 - ΔP<sub>inclinazione</sub> - ΔP<sub>orientamento</sub>)
+    </div>
+
+    <p>Dove l'inclinazione ottimale è 30° e l'orientamento ottimale è 180°, corrispondente all'equatore.</p>
+
+    <h2>3. Produzione Media Giornaliera</h2>
+    <p>La produzione media giornaliera, P<sub>daily</sub>, è calcolata dividendo la produzione annuale corretta per 365:</p>
+
+    <div class="formula">
+        P<sub>daily</sub> = P<sub>annual</sub> / 365
+    </div>
+
+    <p>Questo rappresenta la quantità media di energia prodotta quotidianamente da un impianto fotovoltaico.</p>
+
+    <h2>4. Distribuzione Oraria Normalizzata della Produzione Giornaliera</h2>
+    <p>La distribuzione oraria della produzione in una giornata media è rappresentata da una distribuzione normalizzata. I valori di questa distribuzione indicano la frazione di energia prodotta in ogni ora rispetto alla produzione giornaliera totale.</p>
+
+    <table>
+        <tr>
+            <th>Ora</th>
+            <th>Frazione relativa della produzione</th>
+        </tr>
+        <tr><td>0</td><td>0.0000</td></tr>
+        <tr><td>1</td><td>0.0000</td></tr>
+        <tr><td>2</td><td>0.0000</td></tr>
+        <tr><td>3</td><td>0.0000</td></tr>
+        <tr><td>4</td><td>0.0000</td></tr>
+        <tr><td>5</td><td>0.0000</td></tr>
+        <tr><td>6</td><td>0.0000</td></tr>
+        <tr><td>7</td><td>0.0099</td></tr>
+        <tr><td>8</td><td>0.0198</td></tr>
+        <tr><td>9</td><td>0.0594</td></tr>
+        <tr><td>10</td><td>0.0891</td></tr>
+        <tr><td>11</td><td>0.1188</td></tr>
+        <tr><td>12</td><td>0.1485</td></tr>
+        <tr><td>13</td><td>0.1485</td></tr>
+        <tr><td>14</td><td>0.1386</td></tr>
+        <tr><td>15</td><td>0.1188</td></tr>
+        <tr><td>16</td><td>0.0792</td></tr>
+        <tr><td>17</td><td>0.0396</td></tr>
+        <tr><td>18</td><td>0.0198</td></tr>
+        <tr><td>19</td><td>0.0099</td></tr>
+        <tr><td>20</td><td>0.0000</td></tr>
+        <tr><td>21</td><td>0.0000</td></tr>
+        <tr><td>22</td><td>0.0000</td></tr>
+        <tr><td>23</td><td>0.0000</td></tr>
+    </table>
+
+    <p>Questa distribuzione normalizzata mostra come l'energia prodotta durante il giorno sia suddivisa nelle diverse ore. La somma di tutte le frazioni è pari a 1:</p>
+
+    <div class="formula">
+        Σ f(h) = 1
+    </div>
+
+    <p>Dove f(h) rappresenta la frazione di produzione dell'ora h. La produzione assoluta per ogni ora è quindi calcolata come:</p>
+
+    <div class="formula">
+        P<sub>hourly</sub>(h) = f(h) × P<sub>daily</sub>
+    </div>
+
+    <h2>5. Superficie Minima Necessaria per i Moduli Fotovoltaici</h2>
+    <p>La superficie minima necessaria per i moduli fotovoltaici dipende dalla potenza nominale totale installata, dall'efficienza dei moduli e dall'inclinazione. La formula per calcolare la superficie totale è:</p>
+
+    <div class="formula">
+        S<sub>totale</sub> = P<sub>nominale</sub> / efficienza
+    </div>
+
+    <p>Dove:</p>
+    <ul>
+        <li><b>P<sub>nominale</sub></b>: Potenza nominale totale (in kW).</li>
+        <li><b>Efficienza</b>: Rendimento dei moduli fotovoltaici.</li>
+    </ul>
+
+    <p>Per tener conto dell'inclinazione dei pannelli, l'area effettiva di ciascun modulo viene corretta:</p>
+
+    <div class="formula">
+        S<sub>effettiva</sub> = A<sub>modulo</sub> / cos(θ)
+    </div>
+
+    <p>Dove θ è l'inclinazione in gradi e A<sub>modulo</sub> è l'area del modulo fotovoltaico (altezza × larghezza).</p>
+
+    <h2>6. Conclusione</h2>
+    <div class="conclusion">
+        Il modello presentato consente di stimare la produzione annuale e la distribuzione oraria media di un impianto fotovoltaico, tenendo conto di parametri geometrici e ambientali come l'inclinazione e l'orientamento dei pannelli. Attraverso una distribuzione normalizzata delle ore di produzione, è possibile simulare accuratamente il rendimento energetico su base giornaliera e ottimizzare le installazioni per massimizzare l'energia prodotta.
+    </div>
+
+</body>
+</html>

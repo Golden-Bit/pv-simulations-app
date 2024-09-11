@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentazione Dettagliata dei Modelli e delle Formule per il Calcolo del Risparmio Energetico Annuale</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            padding: 0;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        .formula {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #f9f9f9;
+            border-left: 3px solid #007BFF;
+            padding: 10px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Documentazione Dettagliata dei Modelli e delle Formule per il Calcolo del Risparmio Energetico Annuale</h1>
+
+    <h2>Modello di Calcolo del Risparmio Energetico Annuale</h2>
+    <p>Questo modello calcola il risparmio annuale derivante dall'uso di un impianto fotovoltaico, considerando i costi associati all'energia prodotta, autoconsumata, immessa in rete e venduta. Si analizzano i seguenti parametri:</p>
+
+    <h3>Dati Iniziali</h3>
+    <ul>
+        <li><strong>Energia Totale Prodotta dall’Impianto Fotovoltaico (Etotale):</strong> Quantità totale di energia generata annualmente dal sistema fotovoltaico.</li>
+        <li><strong>Energia Autoconsumata (Eautoconsumata):</strong> Energia utilizzata direttamente dal sistema fotovoltaico all'interno dell'abitazione o dell'azienda.</li>
+        <li><strong>Energia Immessa in Rete (Eimmessa):</strong> Energia trasferita alla rete elettrica.</li>
+        <li><strong>Energia Assorbita dalla Rete (Eassorbita):</strong> Energia prelevata dalla rete elettrica per soddisfare il fabbisogno dell'utente.</li>
+        <li><strong>Consumo Totale Annuo (Efabbisogno):</strong> Energia totale richiesta annualmente dall'utente per soddisfare i propri bisogni energetici.</li>
+    </ul>
+
+    <h3>Calcoli</h3>
+    <p>1. <strong>Energia Immessa in Rete</strong></p>
+    <div class="formula">
+        E<sub>immessa</sub> = E<sub>totale</sub> - E<sub>autoconsumata</sub>
+    </div>
+
+    <p>2. <strong>Energia Assorbita dalla Rete</strong></p>
+    <div class="formula">
+        E<sub>assorbita</sub> = E<sub>fabbisogno</sub> - E<sub>autoconsumata</sub>
+    </div>
+
+    <p>3. <strong>Energia Scambiata e Venduta</strong></p>
+    <ul>
+        <li><strong>Energia Scambiata:</strong></li>
+        <ul>
+            <li>Se E<sub>immessa</sub> &le; E<sub>assorbita</sub>:</li>
+            <div class="formula">
+                E<sub>scambio</sub> = E<sub>immessa</sub><br>
+                E<sub>eccesso</sub> = 0
+            </div>
+            <li>Se E<sub>immessa</sub> &gt; E<sub>assorbita</sub>:</li>
+            <div class="formula">
+                E<sub>scambio</sub> = E<sub>assorbita</sub><br>
+                E<sub>eccesso</sub> = E<sub>immessa</sub> - E<sub>assorbita</sub>
+            </div>
+        </ul>
+    </ul>
+
+    <h3>Esempio Numerico</h3>
+    <p><strong>Dati:</strong></p>
+    <ul>
+        <li>E<sub>totale</sub> = 10,000 kWh</li>
+        <li>E<sub>autoconsumata</sub> = 4,000 kWh</li>
+        <li>E<sub>immessa</sub> = 6,000 kWh</li>
+        <li>E<sub>assorbita</sub> = 2,000 kWh</li>
+        <li>E<sub>fabbisogno</sub> = 6,000 kWh</li>
+    </ul>
+
+    <p><strong>Calcoli:</strong></p>
+    <ul>
+        <li>Poiché E<sub>immessa</sub> &gt; E<sub>assorbita</sub>:</li>
+        <div class="formula">
+            E<sub>scambio</sub> = 2,000 kWh<br>
+            E<sub>eccesso</sub> = 6,000 - 2,000 = 4,000 kWh
+        </div>
+    </ul>
+
+    <h3>Calcolo del Risparmio Annuo</h3>
+    <p><strong>Prezzi:</strong></p>
+    <ul>
+        <li><strong>Prezzo dell’energia acquistata (Penergia):</strong> 0.24 €/kWh</li>
+        <li><strong>Prezzo dell’energia scambiata (Pscambio):</strong> 0.18 €/kWh</li>
+        <li><strong>Prezzo dell’energia venduta (Pvendita):</strong> 0.10 €/kWh</li>
+    </ul>
+
+    <p><strong>Costo Senza Fotovoltaico:</strong></p>
+    <div class="formula">
+        C<sub>senza FV</sub> = E<sub>fabbisogno</sub> × P<sub>energia</sub> = 6,000 × 0.24 = 1,440 €
+    </div>
+
+    <p><strong>Costo con Fotovoltaico:</strong></p>
+    <div class="formula">
+        C<sub>con FV</sub> = (E<sub>assorbita</sub> × P<sub>energia</sub>) + (E<sub>scambio</sub> × P<sub>scambio</sub>) - (E<sub>eccesso</sub> × P<sub>vendita</sub>)<br>
+        C<sub>con FV</sub> = (2,000 × 0.24) + (2,000 × 0.18) - (4,000 × 0.10)<br>
+        C<sub>con FV</sub> = 480 + 360 - 400 = 440 €
+    </div>
+
+    <p><strong>Risparmio Annuo Netto:</strong></p>
+    <div class="formula">
+        Risparmio annuo = C<sub>senza FV</sub> - C<sub>con FV</sub> = 1,440 - 440 = 1,000 €
+    </div>
+
+    <h3>Calcolo delle Metriche Finanziarie</h3>
+    <ul>
+        <li><strong>ROI Semplice (% su 1 anno):</strong></li>
+        <div class="formula">
+            ROI = (Risparmio annuo netto / Costo totale investimento) × 100
+        </div>
+
+        <li><strong>ROI Totale (% su vita utile):</strong></li>
+        <div class="formula">
+            ROI Totale = (Risparmio annuo netto × Anni / Costo totale investimento) × 100
+        </div>
+
+        <li><strong>Tempo di Ritorno (anni):</strong></li>
+        <div class="formula">
+            Punto di Ritorno = Costo totale investimento / Risparmio annuo netto
+        </div>
+
+        <li><strong>Autoconsumo Percentuale su Consumo:</strong></li>
+        <div class="formula">
+            Fattore di Autoconsumo su Consumo = (E<sub>autoconsumata</sub> / E<sub>fabbisogno</sub>) × 100
+        </div>
+
+        <li><strong>Autoconsumo Percentuale su Produzione:</strong></li>
+        <div class="formula">
+            Fattore di Autoconsumo su Produzione = (E<sub>autoconsumata</sub> / E<sub>totale</sub>) × 100
+        </div>
+    </ul>
+</body>
+</html>
